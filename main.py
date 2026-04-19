@@ -1,5 +1,5 @@
 from file_handler import load_expense, save_expense
-#from expense_manager import add_expense
+from expense_manager import add_expense
 
 def display_menu():
     print("Welcome to Expense Tracker\n")
