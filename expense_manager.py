@@ -1,26 +1,22 @@
 from typing import List, Dict
 from file_handler import save_expense
+from utils import is_valid_amount, is_valid_category, is_valid_description
 
 def add_expense(expenses: List[Dict]) -> None:
     """Add new expense to the expense list"""
 
-    try:
-        amount= float(input("Enter the amount: ").strip())
-    except ValueError:
-        print("Please enter a numeric value")
-        return
-    category=input("Enter the category: ").strip().lower()
-    description=input("Enter the description: ").strip().lower()
 
-    if amount<=0:
-        print("Please enter a numeric value")
-        return
-    if not category:
-        print("Please enter right category")
-        return
-    if not description:
-        print("Please enter right description")
-        return
+    amount= input("Enter the amount: ")
+    if not is_valid_amount(amount):
+        return add_expense(expenses)
+
+    category=input("Enter the category: ").strip().lower()
+    if not is_valid_category(category):
+        return add_expense(expenses)
+
+    description=input("Enter the description: ").strip().lower()
+    if not is_valid_description:
+        return add_expense()
 
     # construct a dict
     expense={"amount":amount,"category":category,"description":description}
@@ -28,7 +24,6 @@ def add_expense(expenses: List[Dict]) -> None:
     # add to the expenses list
     expenses.append(expense)
     print("Successfully added new expense")
-
     save_expense(expenses)
 
 
@@ -53,8 +48,8 @@ def total_expenses(expenses: List[Dict]) -> None:
         print("No expenses found.")
         return
 
-    total_exp=sum(expense['amount'] for expense in expenses)
-    print(f"Total expenses: {total_exp:.2f}")
+    total_exp=sum(float(expense['amount']) for expense in expenses)
+    print(f"Total expenses: {total_exp}")
 
 
 def filter_by_category(expenses: List[Dict]) ->  None:
@@ -92,6 +87,8 @@ def delete_expense(expenses: List[Dict]) -> None:
             expenses.remove(expense)
             print("Successfully deleted expense")
             save_expense(expenses)
+        else:
+            print("Please enter a valid category")
 
 
 def update_expense(expenses: List[Dict]) -> None:
@@ -111,10 +108,10 @@ def update_expense(expenses: List[Dict]) -> None:
             print(f"Amount: {expense['amount']}")
             print(f"Description: {expense["description"]}")
 
-            option=input("Enter the update:\n 1. Category\n 2. Amount\n 3. Description")
+            option=input("Enter the update:\n 1. Category\n 2. Amount\n 3. Description\n")
             update_value=input("Enter the update: ").strip().lower()
             if option == "1":
-                if update_value.isalpha():
+                if len(update_value)>0:
                     expense['category']=update_value
                 else:
                     print("Please enter a valid category")
@@ -126,16 +123,16 @@ def update_expense(expenses: List[Dict]) -> None:
                     print("Please enter a valid amount")
                     update_expense(expenses)
             elif option == "3":
-                if update_value.isalphanum():
+                if len(update_value)>0:
                     expense['description']=update_value
                 else:
                     print("Please enter a valid description")
                     update_expense(expenses)
 
+            save_expense(expenses)
             print("Successfully updated expense")
-
-    print("Failed to update expense. Try again")
     return
+
 
 
 

@@ -27,7 +27,7 @@ def main():
 
         display_menu()
 
-        option= input("Enter your choice: ")
+        option= input("Enter your choice: \n")
 
         if option == "1":
             add_expense(expenses)
