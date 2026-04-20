@@ -47,5 +47,34 @@ def view_expenses(expenses: List[Dict]) -> None:
         print(f"Description: {expense['description']}\n")
 
 
+def total_expenses(expenses: List[Dict]) -> None:
+
+    if not expenses:
+        print("No expenses found.")
+        return
+
+    total_exp=sum(expense['amount'] for expense in expenses)
+    print(f"Total expenses: {total_exp:.2f}")
+
+
+def filter_by_category(expenses: List[Dict]) ->  None:
+    """Filter expenses by the category"""
+
+    category = input("Enter the category:").strip().lower()
+
+    list_expenses=[
+       expense for expense in expenses if expense['category'].lower()==category
+    ]
+
+    # if list of expenses is empty
+    if not list_expenses:
+        print("No expense found.")
+        return
+
+    print(f"All the expenses found in {category} category:\n")
+    for expense in list_expenses:
+        print(f"Category: {expense['category']}")
+        print(f"Amount: {expense['amount']}")
+        print(f"Description: {expense['description']}\n")
 
 
