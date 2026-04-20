@@ -22,5 +22,5 @@ def save_expense(expenses: List[Dict]) -> None:
     """
     Save expense data to JSON file
     """
-    with open("FILE_NAME",'w') as file:
+    with open(FILE_NAME,'w') as file:
         json.dump(expenses, file)
