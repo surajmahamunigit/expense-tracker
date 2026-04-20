@@ -78,3 +78,67 @@ def filter_by_category(expenses: List[Dict]) ->  None:
         print(f"Description: {expense['description']}\n")
 
 
+def delete_expense(expenses: List[Dict]) -> None:
+    """Delete expense from the expense list"""
+
+    try:
+        category=input("Enter the category you want to delete: ").strip().lower()
+    except ValueError:
+        print("Please enter the right category")
+        return
+
+    for expense in expenses:
+        if expense["category"]==category:
+            expenses.remove(expense)
+            print("Successfully deleted expense")
+            save_expense(expenses)
+
+
+def update_expense(expenses: List[Dict]) -> None:
+    """Update expense from the expense list"""
+
+    try:
+        category=input("Enter the expense category you want to update: ").strip().lower()
+    except ValueError:
+        print("Please enter the right category")
+        return
+
+    for expense in expenses:
+        if expense["category"]==category:
+
+            print("Previous expense:\n")
+            print(f"Category: {expense['category']}")
+            print(f"Amount: {expense['amount']}")
+            print(f"Description: {expense["description"]}")
+
+            option=input("Enter the update:\n 1. Category\n 2. Amount\n 3. Description")
+            update_value=input("Enter the update: ").strip().lower()
+            if option == "1":
+                if update_value.isalpha():
+                    expense['category']=update_value
+                else:
+                    print("Please enter a valid category")
+                    update_expense(expenses)
+            elif option == "2":
+                if update_value.isdigit():
+                    expense['amount']=update_value
+                else:
+                    print("Please enter a valid amount")
+                    update_expense(expenses)
+            elif option == "3":
+                if update_value.isalphanum():
+                    expense['description']=update_value
+                else:
+                    print("Please enter a valid description")
+                    update_expense(expenses)
+
+            print("Successfully updated expense")
+
+    print("Failed to update expense. Try again")
+    return
+
+
+
+
+
+
